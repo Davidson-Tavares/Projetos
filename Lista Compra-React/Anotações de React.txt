@@ -1,0 +1,147 @@
+REACT
+
+1ª precisa ter instalado o node.js / vscode.
+2ª usar o site vite. // usar o comando $ npm create vite@latest 
+3ª depois vamos intalar as dependencias da pasta do package.json // $ npm i e depois o $ npm rum dev
+para mostrar o caminho do arquivo.
+
+4ª ja consigo usar o react.
+
+criei um imput e criei um botao . fiz uma função para o evento onclik e importei o hooks useRef no projeto 
+$ import {useRef} from "react".
+
+¨Para recuperar o valor do campo criei uma const inputRef para receber o useREF EX:
+const inputRef = useRef()
+
+depois no imput coloquei um atributo ref= {inputRef}, para receber o input.
+depois eu imprimo usando o console.log(inputRef) na função cliqueiNoBotao criada para o  evento onclick.
+
+para ver o valor preciso adicionar no console o caminho ex: console.log(inputRef.current.value)
+
+5ª Adicionado o valor  na tela 
+
+criei uma variavei let produtos = [], para receber os valores digitados no input. Na função cliqueiNoButao adicionei a variavel juntamente com o metodo push:
+$ produtos.push(inputRefe.current.value)
+
+para mostrar na tela coloquei um jsx no return da função cliquiNoBotao 
+{produtos.map((produto) => ( <div> {produto} </div> ))}
+
+ // O metodo MAP() retorna um novo valor no array apos a manipulaçao.
+
+a tela nao atualiza por isso usaremos o metodo useState para o react atualizar o site.
+o useState e uma variavel que modifica estado , que e a atualização da tela.
+
+6ª importa o useState
+cria uma const com array para receber o valor a ser modificado ou adicionado no array.
+ $const [produtos, setProdutos] = useState()  -- dentro do use state eu passo algum valro inicial se eu quiser.
+
+7ª nao precissamos mais do metodo push. no lugar ataribuimos o setProdutos([inputRef.current.value])
+
+e o valor ja e adicionado na tela.e para continuar adicionando sem o valor sumir ou sobescrever e so usar o spredOperator  ...   no final ex: setProdutos([inputRef.current.value, ...produtos])
+
+
+8ª todos os itens do array precisa de um identificador e para isso vamos instalar o gerador de id $ npm i uuid 
+e importamos o atributo v4. 
+ex: $import {v4} from 'uuid'
+
+9ª para usar o o id gerado vamos atribuir a um objeto
+
+ex:setProdutos([ {id: v4(),
+nome: inputRef.current.value},...produtos])
+
+10ª DELETAR O PRODUTO
+criei um botao envolvido dentro de um elemento pai.
+mudei a palavra deletar pelo simbolo de x, fui no google e digigtei emoticom copiei o simbolo e colei no butom.
+
+
+fiz uma funçao deletarProduto no onclick e passei produto.id como parametro.ex:
+<button onClick= {() => deletarProduto(produto.id)}>Deletar </button>
+ para chamar com parametro tem que usar o () => .
+
+para selecionar o id certo na função deletar eu passei como parametro o id e usei o metodo filter  ex:
+function deletarProduto(id) {
+setProdutos(produtos.filter(produto => produto.id !== id))}
+
+11ª LIMPAR O IMPUT
+
+na função cliquei no botao eu adiciono
+inputRef.current.value = ''
+
+
+12ª estilização com css
+ 
+instalar styled-components/documents/installation
+$npm install styled-components
+
+criei um arquivo com o nome styled.jsx 
+importei $styled from 'styled-components'
+
+para usar os estilos dentro do arquivo styled configuramos assim:
+export const AddButton = styled.button`
+background #`6cf000;
+
+e ultilizado a craze. e na pagina que for ultilizada importamos o arquivo ex:import { AddButton} from "./styles"
+
+e colocamos o atributo no lugar do button ex:$<AddButton onClick={cliqueiNoBotao} >Adicionar</AddButton>
+
+
+<!----------------------------- ------------>
+          EXEMPLO COMPLETO
+
+
+import { useRef, useState } from "react"
+import { v4 } from 'uuid'
+import { AddButton, Container } from "./styles"
+
+function Home() {
+  const [produtos, setProdutos] = useState([])
+  const inputRef = useRef()
+
+  function cliqueiNoBotao() {
+    setProdutos([{id: v4(), nome: inputRef.current.value }, ...produtos])
+
+    inputRef.current.value = ''
+  }
+
+  function deletarProduto(id) {
+    setProdutos(produtos.filter(produto => produto.id !== id))
+
+  }
+
+
+  return (
+    <Container>
+      <h1>Lista de Compras </h1>
+      <input placeholder="Produto..." ref={inputRef} />
+      <AddButton onClick={cliqueiNoBotao} >Adicionar</AddButton>
+
+      {produtos.map((produto) => (
+        <div key={produto.id}>
+          <p>{produto.nome}</p>
+          <button onClick= {() => deletarProduto(produto.id)}>❌</button>
+        </div>
+
+      ))}
+
+    </Container>
+  )
+}
+
+export default Home
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1:15.
+https://www.youtube.com/watch?v=3wcjhAZoviA&t=2508
+
